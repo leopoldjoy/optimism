@@ -29,7 +29,8 @@ interface IDisputeGameFactory is IProxyAdminOwnedBase, IReinitializableBase {
     function create(
         GameType _gameType,
         Claim _rootClaim,
-        bytes memory _extraData
+        bytes memory _extraData,
+        bytes memory _initData
     )
         external
         payable

@@ -143,11 +143,13 @@ contract DisputeGameFactory is ProxyAdminOwnedBase, ReinitializableBase, Ownable
     /// @param _gameType The type of the DisputeGame - used to decide the proxy implementation.
     /// @param _rootClaim The root claim of the DisputeGame.
     /// @param _extraData Any extra data that should be provided to the created dispute game.
+    /// @param _initData Initialization data passed to the game's initialize function (e.g., proof data).
     /// @return proxy_ The address of the created DisputeGame proxy.
     function create(
         GameType _gameType,
         Claim _rootClaim,
-        bytes calldata _extraData
+        bytes calldata _extraData,
+        bytes calldata _initData
     )
         external
         payable
@@ -198,7 +200,7 @@ contract DisputeGameFactory is ProxyAdminOwnedBase, ReinitializableBase, Ownable
                 )
             );
         }
-        proxy_.initialize{ value: msg.value }();
+        proxy_.initialize{ value: msg.value }(_initData);
 
         // Compute the unique identifier for the dispute game.
         Hash uuid = getGameUUID(_gameType, _rootClaim, _extraData);
